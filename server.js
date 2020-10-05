@@ -12,7 +12,7 @@ var clientInfo = {};
 var io = require("socket.io")(http);
 
 // expose the folder via express thought
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/main'));
 
 // send current users to provided scoket
 function sendCurrentUsers(socket) { // loading current users
