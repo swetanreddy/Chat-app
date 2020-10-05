@@ -12,7 +12,7 @@ var clientInfo = {};
 var io = require("socket.io")(http);
 
 // expose the folder via express thought
-app.use(express.static(__dirname + '/main'));
+app.use(express.static(__dirname + '/public'));
 
 // send current users to provided scoket
 function sendCurrentUsers(socket) { // loading current users
@@ -31,13 +31,14 @@ function sendCurrentUsers(socket) { // loading current users
     }
 
   });
-
   // emit message when all users list
+
   socket.emit("message", {
     name: "System",
     text: "Current Users : " + users.join(', '),
     timestamp: moment().valueOf()
   });
+
 }
 
 
@@ -56,6 +57,7 @@ io.on("connection", function(socket) {
         name: "System",
         timestamp: moment().valueOf()
       });
+
       // delete user data-
       delete clientInfo[socket.id];
 
@@ -88,9 +90,8 @@ io.on("connection", function(socket) {
 
   });
 
-  socket.emit("message", function(res) {
- 
-    text: "Welcome to Chat Application!",
+  socket.emit("message", {
+    text: "Welcome to Chat Appliction !",
     timestamp: moment().valueOf(),
     name: "System"
   });
@@ -109,6 +110,7 @@ io.on("connection", function(socket) {
       socket.broadcast.to(clientInfo[socket.id].room).emit("message", message);
       //socket.emit.to(clientInfo[socket.id].room).emit("message", message);
     }
+
   });
 });
 http.listen(PORT, function() {
