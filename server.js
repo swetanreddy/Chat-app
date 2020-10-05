@@ -31,14 +31,13 @@ function sendCurrentUsers(socket) { // loading current users
     }
 
   });
-  // emit message when all users list
 
+  // emit message when all users list
   socket.emit("message", {
     name: "System",
     text: "Current Users : " + users.join(', '),
     timestamp: moment().valueOf()
   });
-
 }
 
 
@@ -57,7 +56,6 @@ io.on("connection", function(socket) {
         name: "System",
         timestamp: moment().valueOf()
       });
-
       // delete user data-
       delete clientInfo[socket.id];
 
@@ -90,8 +88,9 @@ io.on("connection", function(socket) {
 
   });
 
-  socket.emit("message", {
-    text: "Welcome to Chat Appliction !",
+  socket.emit("message", function(res) {
+ 
+    text: "Welcome to Chat Application!",
     timestamp: moment().valueOf(),
     name: "System"
   });
@@ -110,7 +109,6 @@ io.on("connection", function(socket) {
       socket.broadcast.to(clientInfo[socket.id].room).emit("message", message);
       //socket.emit.to(clientInfo[socket.id].room).emit("message", message);
     }
-
   });
 });
 http.listen(PORT, function() {
